@@ -9,30 +9,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const likes = Array.from(document.querySelectorAll('.like-glyph'));
 
-  likes.forEach(l => l.addEventListener('click', function(e) {
-    notifyServer();
-    displayLike();
+  likes.forEach(l => l.addEventListener('click', function(event) {
+    
+    mimicServerCall().then(function() {toggleLike(event)})
+      .catch(displayErrorMessage);
   }))
 
-  function notifyServer() {
-    let configurationObject = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: "Woohoo"
-    };
-
-    fetch("http://mimicServer.example.com",configurationObject)
-      .then(r => r.json())
-      .then(console.log);
+  function displayErrorMessage(error) {
+    const erm = document.querySelector('#modal');
+    erm.innerText = error;
+    erm.classList.remove("hidden");
+    setTimeout(function() {erm.classList.add("hidden")}, 5000);
   }
 
-  function displayLike() {
+  function toggleLike(event) {
+    
+    const heart = event.target;
 
+    if (heart.innerText === EMPTY_HEART) {
+      heart.innerText = FULL_HEART;
+      heart.classList.add('activated-heart')}
+    else {
+      heart.innerText = EMPTY_HEART;
+      heart.classList.remove('activated-heart')
+    }
   }
-
 
 })
 
