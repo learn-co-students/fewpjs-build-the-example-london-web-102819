@@ -4,7 +4,37 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('%c CONTENT LOADED', 'color: red; font-family: "Times New Roman";')
 
+  const likes = Array.from(document.querySelectorAll('.like-glyph'));
+
+  likes.forEach(l => l.addEventListener('click', function(e) {
+    notifyServer();
+    displayLike();
+  }))
+
+  function notifyServer() {
+    let configurationObject = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: "Woohoo"
+    };
+
+    fetch("http://mimicServer.example.com",configurationObject)
+      .then(r => r.json())
+      .then(console.log);
+  }
+
+  function displayLike() {
+
+  }
+
+
+})
 
 
 //------------------------------------------------------------------------------
